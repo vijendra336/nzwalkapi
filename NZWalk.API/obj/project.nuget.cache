@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "NkXnbP8WwMU3sWnlAI2W9fUyxGeO7h8ms09Tk8GQWOmnz0MNFdfWRqzWpDYTzbwVXkqVaMCPFr4so9WLgXj8Xg==",
+  "success": true,
+  "projectFilePath": "E:\\Studies\\Udemy_DotNet6\\NZWalks-My\\NZWalk\\NZWalk.API\\NZWalk.API.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\vijen\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.11\\microsoft.aspnetcore.openapi.7.0.11.nupkg.sha512",
+    "C:\\Users\\vijen\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\vijen\\.nuget\\packages\\microsoft.openapi\\1.4.3\\microsoft.openapi.1.4.3.nupkg.sha512",
+    "C:\\Users\\vijen\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
+    "C:\\Users\\vijen\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "C:\\Users\\vijen\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
+    "C:\\Users\\vijen\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
