@@ -8,7 +8,5 @@
         //nullable type ? property 
         public string? RegionImageUrl { get; set; }
 
-
-
     }
 }
