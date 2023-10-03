@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using NZWalk.API.Data;
 using NZWalk.API.Models.Domain;
 using NZWalk.API.Models.DTO;
-
+// #1 Synchronous API CRUD Operation 
 namespace NZWalk.API.Controllers
 {
     [Route("api/[controller]")]
