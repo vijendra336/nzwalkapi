@@ -49,5 +49,37 @@ namespace NZWalk.API.Controllers
             return Ok(regionsDto);
         }
 
+        // GET ALL REGIONS By ID
+        // GET: https://localhost:portnumber/api/regions/{id} 
+        [HttpGet]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
+        {
+            // Route id should match with parameter id 
+            // FromRoute attribute as it is coming from route 
+
+            //var region = dbContext.Regions.Find(id); // Find method use only for primarykey 
+
+            // Get regions domain model from Database
+            var regionDomain = await dbContext.Regions.FirstOrDefaultAsync(r => r.Id == id);
+
+            if (regionDomain == null)
+            {
+                return NotFound(id);
+            }
+
+            //Map/Convert Region Domain Model to Region DTO
+            var regionDto = new RegionDto()
+            {
+                Id = regionDomain.Id,
+                Code = regionDomain.Code,
+                Name = regionDomain.Name,
+                RegionImageUrl = regionDomain.RegionImageUrl
+            };
+
+            // Return/expose DTO back to the client
+            return Ok(regionDto);
+        }
+
     }
 }
