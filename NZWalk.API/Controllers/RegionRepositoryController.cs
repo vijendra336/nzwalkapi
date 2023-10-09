@@ -113,5 +113,43 @@ namespace NZWalk.API.Controllers
 
         }
 
+        // Update Region
+        // PUT: https://localhost:portnumber/api/regions/{id} 
+        [HttpPut]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto)
+        {
+            // Map DTO to Domain Model
+            var regionDomainModel = new Region()
+            {
+
+                Code = updateRegionRequestDto.Code,
+                Name = updateRegionRequestDto.Name,
+                RegionImageUrl = updateRegionRequestDto.RegionImageUrl
+            };
+
+            // Check if Region exists 
+             regionDomainModel =  await regionRepository.UpdateAsync(id, regionDomainModel);
+
+
+            if (regionDomainModel == null)
+            {
+                return NotFound();
+            }
+
+            // Convert Domain model to DTO
+            var regionDto = new RegionDto
+            {
+                Id = regionDomainModel.Id,
+                Code = regionDomainModel.Code,
+                Name = regionDomainModel.Name,
+                RegionImageUrl = regionDomainModel.RegionImageUrl
+            };
+
+            //return back DTO to client not Domain Model
+            return Ok(regionDto);
+        }
+
+
     }
 }
