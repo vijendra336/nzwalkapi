@@ -61,7 +61,7 @@ namespace NZWalk.API.Controllers
             //var region = dbContext.Regions.Find(id); // Find method use only for primarykey 
 
             // Get regions domain model from Database
-            var regionDomain = await dbContext.Regions.FirstOrDefaultAsync(r => r.Id == id);
+            var regionDomain = await regionRepository.GetByIdAsync(id);
 
             if (regionDomain == null)
             {
