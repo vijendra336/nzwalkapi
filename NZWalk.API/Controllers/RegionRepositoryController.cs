@@ -151,5 +151,33 @@ namespace NZWalk.API.Controllers
         }
 
 
+        // Delete: https://localhost:portnumber/api/regions/{id} 
+        [HttpDelete]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            // Check if Region Domain Model Exist
+            var regionDomainModel = await regionRepository.DeleteAsync(id);
+
+            if (regionDomainModel == null)
+            {
+                return NotFound();
+            }
+
+           
+            // Return Deleted Region Back
+            // Map Domain Model to DTO
+            var regionDto = new RegionDto
+            {
+                Id = regionDomainModel.Id,
+                Code = regionDomainModel.Code,
+                Name = regionDomainModel.Name,
+                RegionImageUrl = regionDomainModel.RegionImageUrl
+            };
+
+            return Ok(regionDto);
+        }
+
+
     }
 }
