@@ -23,7 +23,7 @@ namespace NZWalk.API.Mappings
             CreateMap<AddRegionRequestDto, Region>().ReverseMap();
 
             // For Update method 
-            CreateMap<UpdateRegionRequestDto, Region>().ReverseMap();
+            CreateMap<UpdateRegionRequestDto, Region>().ReverseMap(); 
         }
 
         public class UserDTO
