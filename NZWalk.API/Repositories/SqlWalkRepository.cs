@@ -30,5 +30,13 @@ namespace NZWalk.API.Repositories
             // Another way Using Navigation Properties with Type Safe 
             //return await dbContexts.Walks.Include(x=>x.Difficulty).Include(y=>y.Region).ToListAsync();
         }
+
+        public async Task<Walk> GetByIdAsync(Guid id)
+        {
+           return await dbContexts.Walks
+                .Include("Difficulty")
+                .Include("Region")
+                .FirstOrDefaultAsync(walk => walk.Id == id);   
+        }
     }
 }
