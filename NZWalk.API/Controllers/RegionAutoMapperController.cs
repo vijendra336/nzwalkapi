@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NZWalk.API.CustomActionFilter;
 using NZWalk.API.Models.Domain;
 using NZWalk.API.Models.DTO;
 using NZWalk.API.Repositories;
@@ -68,10 +69,12 @@ namespace NZWalk.API.Controllers
         //POST To Create New Region
         //POST: https://localhost:portnumber/api/regions 
         [HttpPost]
+        [ValidateModel]
         public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegionRequestDto)
         {
-            if (ModelState.IsValid)
-            {
+            // change from check for ModelState we use ValidateModel -> Custom Attribute we created 
+            //if (ModelState.IsValid)
+            //{
                 // Map or Convert DTO to Domain Model 
                 // AutoMapper map addRegionRequestDto to Region Domain model 
                 var regionDomainModel = mapper.Map<Region>(addRegionRequestDto);
@@ -83,22 +86,21 @@ namespace NZWalk.API.Controllers
                 var regionDto = mapper.Map<RegionDto>(regionDomainModel);
 
                 return CreatedAtAction(nameof(GetById), new { id = regionDomainModel.Id }, regionDto);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+            //}
+            //else
+            //{
+            //    return BadRequest(ModelState);
+            //}
         }
 
         // Update Region
         // PUT: https://localhost:portnumber/api/regions/{id} 
         [HttpPut]
         [Route("{id:Guid}")]
+        [ValidateModel]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto)
         {
 
-            if (ModelState.IsValid)
-            {
                 // Map DTO to Domain Model
                 //AutoMapper
                 var regionDomainModel = mapper.Map<Region>(updateRegionRequestDto);
@@ -118,11 +120,7 @@ namespace NZWalk.API.Controllers
 
                 //return back DTO to client not Domain Model
                 return Ok(regionDto);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+
         }
 
 

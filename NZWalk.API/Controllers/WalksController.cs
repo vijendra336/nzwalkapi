@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NZWalk.API.CustomActionFilter;
 using NZWalk.API.Models.Domain;
 using NZWalk.API.Models.DTO;
 using NZWalk.API.Repositories;
@@ -23,10 +24,12 @@ namespace NZWalk.API.Controllers
 
 
         [HttpPost]
+        [ValidateModel]
         public async Task<IActionResult> Create([FromBody] AddWalkRequestDto addWalkRequestDto)
         {
-            if (ModelState.IsValid)
-            {
+            // Acheive modelstate by ValidateModelAttribute
+            //if (ModelState.IsValid)
+            //{
                 // AutoMapper - Map DTO to DomainModel
                 var walkDomainModel = mapper.Map<Walk>(addWalkRequestDto);
 
@@ -34,11 +37,11 @@ namespace NZWalk.API.Controllers
 
                 // AutoMapper Map Domain Model to DTO
                 return Ok(mapper.Map<WalkDto>(walkDomainModel));
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+            //}
+            //else
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
         }
 
@@ -71,10 +74,9 @@ namespace NZWalk.API.Controllers
 
         [HttpPut]
         [Route("{id}")]
+        [ValidateModel]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateWalkRequestDto updateWalkRequestDto)
         {
-            if (ModelState.IsValid)
-            {
                 //Map DTO to Domain Model
                 var walkDomainModel = mapper.Map<Walk>(updateWalkRequestDto);
 
@@ -86,11 +88,6 @@ namespace NZWalk.API.Controllers
                 }
 
                 return Ok(mapper.Map<WalkDto>(walkDomainModel));
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
 
         }
 
