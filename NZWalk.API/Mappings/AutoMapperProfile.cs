@@ -18,17 +18,13 @@ namespace NZWalk.API.Mappings
 
             // Automapper for Region and RegionDTO
             CreateMap<Region, RegionDto>().ReverseMap();
-
-            //For Create method 
-            CreateMap<AddRegionRequestDto, Region>().ReverseMap();
-
-            // For Update method 
-            CreateMap<UpdateRegionRequestDto, Region>().ReverseMap();
-
+            CreateMap<AddRegionRequestDto, Region>().ReverseMap();   //For Create method 
+            CreateMap<UpdateRegionRequestDto, Region>().ReverseMap(); // For Update method 
 
             //Walks Mapper
             CreateMap<AddWalkRequestDto, Walk>().ReverseMap();
             CreateMap<Walk, WalkDto>().ReverseMap();
+            CreateMap<Difficulty, DifficultyDto>().ReverseMap();
         }
 
         public class UserDTO

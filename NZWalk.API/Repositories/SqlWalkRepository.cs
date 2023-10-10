@@ -22,7 +22,13 @@ namespace NZWalk.API.Repositories
 
         public async Task<List<Walk>> GetAllAsync()
         {
-           return await dbContexts.Walks.ToListAsync();
+            //return await dbContexts.Walks.ToListAsync();
+            
+            // Using Navigation Properties
+            return await dbContexts.Walks.Include("Difficulty").Include("Region").ToListAsync();
+
+            // Another way Using Navigation Properties with Type Safe 
+            //return await dbContexts.Walks.Include(x=>x.Difficulty).Include(y=>y.Region).ToListAsync();
         }
     }
 }
