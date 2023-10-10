@@ -25,13 +25,20 @@ namespace NZWalk.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AddWalkRequestDto addWalkRequestDto)
         {
-            // AutoMapper - Map DTO to DomainModel
-            var walkDomainModel = mapper.Map<Walk>(addWalkRequestDto);
+            if (ModelState.IsValid)
+            {
+                // AutoMapper - Map DTO to DomainModel
+                var walkDomainModel = mapper.Map<Walk>(addWalkRequestDto);
 
-            await walkRepository.CreateAsync(walkDomainModel);
+                await walkRepository.CreateAsync(walkDomainModel);
 
-            // AutoMapper Map Domain Model to DTO
-            return Ok(mapper.Map<WalkDto>(walkDomainModel));
+                // AutoMapper Map Domain Model to DTO
+                return Ok(mapper.Map<WalkDto>(walkDomainModel));
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
 
         }
 
@@ -66,17 +73,24 @@ namespace NZWalk.API.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateWalkRequestDto updateWalkRequestDto)
         {
-            //Map DTO to Domain Model
-            var walkDomainModel = mapper.Map<Walk>(updateWalkRequestDto);
-
-            walkDomainModel= await walkRepository.UpdateAsync(id ,walkDomainModel);
-
-            if(walkDomainModel == null)
+            if (ModelState.IsValid)
             {
-                return NotFound();
-            }
+                //Map DTO to Domain Model
+                var walkDomainModel = mapper.Map<Walk>(updateWalkRequestDto);
 
-            return Ok(mapper.Map<WalkDto>(walkDomainModel));
+                walkDomainModel = await walkRepository.UpdateAsync(id, walkDomainModel);
+
+                if (walkDomainModel == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(mapper.Map<WalkDto>(walkDomainModel));
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
 
         }
 
