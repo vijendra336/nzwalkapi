@@ -1,7 +1,13 @@
 ﻿using AutoMapper;
+using NZWalk.API.Models.Domain;
+using NZWalk.API.Models.DTO;
 
 namespace NZWalk.API.Mappings
 {
+
+    // Install Nuget Packages 
+    //1. AutoMapper
+    //2. AutoMapper.Extensions.Microsoft.DependencyInjection  ( Adding dependency in application program.cs )
     public class AutoMapperProfile : Profile
     {
         public AutoMapperProfile()
@@ -9,6 +15,15 @@ namespace NZWalk.API.Mappings
             CreateMap<UserDTO, UserDomain>()
                 .ForMember(x => x.Name, opt=> opt.MapFrom(x=> x.FullName))  // for non matching properties define mapping 
                 .ReverseMap(); // ReverseMap means UserDTO to UserDomain and also UserDomain to UserDTO
+
+            // Automapper for Region and RegionDTO
+            CreateMap<Region, RegionDto>().ReverseMap();
+
+            //For Create method 
+            CreateMap<AddRegionRequestDto, Region>().ReverseMap();
+
+            // For Update method 
+            CreateMap<UpdateRegionRequestDto, Region>().ReverseMap();
         }
 
         public class UserDTO
