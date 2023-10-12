@@ -19,7 +19,7 @@ builder.Services.AddDbContext<NZWalkDbContexts>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("NZWalksConnectionString"))
     );
 
-builder.Services.AddDbContext<NZWalkDbContexts>(options =>
+builder.Services.AddDbContext<NZWalksAuthDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("NZWalksAuthConnectionString"))
     );
 
