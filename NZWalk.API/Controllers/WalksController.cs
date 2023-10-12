@@ -62,9 +62,10 @@ namespace NZWalk.API.Controllers
         [HttpGet]
         [Route("GetAllByFilterAndSort")]  // for new route name 
         public async Task<IActionResult> GetAllByFilterQuery([FromQuery] string? filterOn, [FromQuery] string? filterQuery,
-            [FromQuery] string? sortBy, [FromQuery] bool? isAscending)
+            [FromQuery] string? sortBy, [FromQuery] bool? isAscending,
+            [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000)
         {
-            var walksDomainModel = await walkRepository.GetAllFilterAsync(filterOn, filterQuery, sortBy, isAscending ?? true);
+            var walksDomainModel = await walkRepository.GetAllFilterAsync(filterOn, filterQuery, sortBy, isAscending ?? true, pageNumber, pageSize);
 
             if (walksDomainModel == null)
             {
