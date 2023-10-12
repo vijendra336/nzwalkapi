@@ -60,10 +60,11 @@ namespace NZWalk.API.Controllers
 
         // Get: /api/walks/GetAllByFilter?filterOn=Name&filterQuery=Track
         [HttpGet]
-        [Route("GetAllByFilter")]  // for new route name 
-        public async Task<IActionResult> GetAllByFilterQuery([FromQuery] string? filterOn, [FromQuery] string? filterQuery)
+        [Route("GetAllByFilterAndSort")]  // for new route name 
+        public async Task<IActionResult> GetAllByFilterQuery([FromQuery] string? filterOn, [FromQuery] string? filterQuery,
+            [FromQuery] string? sortBy, [FromQuery] bool? isAscending)
         {
-            var walksDomainModel = await walkRepository.GetAllFilterAsync(filterOn, filterQuery);
+            var walksDomainModel = await walkRepository.GetAllFilterAsync(filterOn, filterQuery, sortBy, isAscending ?? true);
 
             if (walksDomainModel == null)
             {
