@@ -48,9 +48,24 @@ namespace NZWalk.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var walksDomainModel= await walkRepository.GetAllAsync();
+            var walksDomainModel = await walkRepository.GetAllAsync();
 
-            if(walksDomainModel == null)
+            if (walksDomainModel == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<List<WalkDto>>(walksDomainModel));
+        }
+
+        // Get: /api/walks/GetAllByFilter?filterOn=Name&filterQuery=Track
+        [HttpGet]
+        [Route("GetAllByFilter")]  // for new route name 
+        public async Task<IActionResult> GetAllByFilterQuery([FromQuery] string? filterOn, [FromQuery] string? filterQuery)
+        {
+            var walksDomainModel = await walkRepository.GetAllFilterAsync(filterOn, filterQuery);
+
+            if (walksDomainModel == null)
             {
                 return NotFound();
             }
