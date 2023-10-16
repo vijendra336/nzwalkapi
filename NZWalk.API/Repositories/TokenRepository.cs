@@ -30,7 +30,7 @@ namespace NZWalk.API.Repositories
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             // Create Token
-            var token = new JwtSecurityToken(configuration["Jwt:Issuer"], configuration["Audience"], claims, 
+            var token = new JwtSecurityToken(configuration["Jwt:Issuer"], configuration["Jwt:Audience"], claims, 
                 expires: DateTime.Now.AddMinutes(15), signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
