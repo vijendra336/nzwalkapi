@@ -14,7 +14,7 @@ namespace NZWalk.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class RegionAutoMapperController : ControllerBase
     {
         private readonly IRegionRepository regionRepository;
@@ -30,6 +30,7 @@ namespace NZWalk.API.Controllers
         // GET: https://localhost:portnumber/api/regionsasync 
         // Asynchronous Call GetAll
         [HttpGet]
+        [Authorize(Roles = "Reader")]
         public async Task<IActionResult> GetAll()
         {
             // Get data from Database - Domain models 
@@ -49,6 +50,7 @@ namespace NZWalk.API.Controllers
         // GET: https://localhost:portnumber/api/regions/{id} 
         [HttpGet]
         [Route("{id:Guid}")]
+        [Authorize(Roles = "Reader")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             // Route id should match with parameter id 
@@ -72,6 +74,8 @@ namespace NZWalk.API.Controllers
         //POST: https://localhost:portnumber/api/regions 
         [HttpPost]
         [ValidateModel]
+        
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegionRequestDto)
         {
             // change from check for ModelState we use ValidateModel -> Custom Attribute we created 
@@ -100,6 +104,7 @@ namespace NZWalk.API.Controllers
         [HttpPut]
         [Route("{id:Guid}")]
         [ValidateModel]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto)
         {
 
@@ -129,6 +134,7 @@ namespace NZWalk.API.Controllers
         // Delete: https://localhost:portnumber/api/regions/{id} 
         [HttpDelete]
         [Route("{id:Guid}")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             // Check if Region Domain Model Exist
