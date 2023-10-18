@@ -11,6 +11,8 @@ using Microsoft.Extensions.FileProviders;
 using Serilog;
 using System.Diagnostics.Metrics;
 using NZWalk.API.Middleware;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using NZWalk.API;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,7 +37,15 @@ builder.Services.AddControllers();
 builder.Services.AddApiVersioning( options =>
 { 
     options.AssumeDefaultVersionWhenUnspecified = true;
-}); 
+    options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+    options.ReportApiVersions = true;
+});
+
+builder.Services.AddVersionedApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
+});
 
 builder.Services.AddHttpContextAccessor();
 
@@ -121,13 +131,24 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
     });
 
+//builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
+
 var app = builder.Build();
+
+var versionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        foreach (var description in versionDescriptionProvider.ApiVersionDescriptions)
+        {
+            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+                description.GroupName.ToUpperInvariant());
+        }
+    });
 }
 
 // Inject GlobalExceptionHandler middleware 
