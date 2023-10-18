@@ -16,6 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 //Inject logging package serilog
 var logger = new LoggerConfiguration()
     .WriteTo.Console()
+    .WriteTo.File("Logs/NzWalks_Log.txt", rollingInterval:RollingInterval.Day)
     //.MinimumLevel.Information()
     .MinimumLevel.Warning()
 .CreateLogger();
