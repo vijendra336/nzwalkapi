@@ -7,6 +7,7 @@ using NZWalk.API.CustomActionFilter;
 using NZWalk.API.Models.Domain;
 using NZWalk.API.Models.DTO;
 using NZWalk.API.Repositories;
+using System.Text.Json;
 
 //#3 Repository Pattern Implementation 
 
@@ -19,31 +20,54 @@ namespace NZWalk.API.Controllers
     {
         private readonly IRegionRepository regionRepository;
         private readonly IMapper mapper;
+        private readonly ILogger<RegionAutoMapperController> logger;
 
-        public RegionAutoMapperController(IRegionRepository regionRepository, IMapper mapper)
+        public RegionAutoMapperController(IRegionRepository regionRepository, 
+            IMapper mapper, ILogger<RegionAutoMapperController> logger)
         {
             this.regionRepository = regionRepository;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         // GET ALL REGIONS
         // GET: https://localhost:portnumber/api/regionsasync 
         // Asynchronous Call GetAll
         [HttpGet]
-        [Authorize(Roles = "Reader")]
+        //[Authorize(Roles = "Reader")]
         public async Task<IActionResult> GetAll()
         {
-            // Get data from Database - Domain models 
-            // Use await to call which you want async 
-            var regionsDomain = await regionRepository.GetAllAsync();
 
-            // Map or converting this Domain models to DTOs 
-            //Automapper Map or converting this Domain models to DTOs 
-            var regionsDto = mapper.Map<List<RegionDto>>(regionsDomain);
+            try
+            {
 
-            // return DTOs to the client 
-            // exposing dto instead of domain model i.e. regionsDomain
-            return Ok(regionsDto);
+                throw new Exception("This is custom exception to check exception log ");
+
+                //Program.cs -> MinimumLevel.Information()  ( LogInformation and LogDebug work )
+                logger.LogInformation("GetAllRegions action method Invoked");
+
+                //Program.cs -> MinimumLevel.Warning()  (LogWarning and LogError will work )
+                logger.LogWarning("This is warning log.");
+                logger.LogError("This is error log.");
+
+                // Get data from Database - Domain models 
+                // Use await to call which you want async 
+                var regionsDomain = await regionRepository.GetAllAsync();
+
+                // Map or converting this Domain models to DTOs 
+                //Automapper Map or converting this Domain models to DTOs 
+                var regionsDto = mapper.Map<List<RegionDto>>(regionsDomain);
+
+                logger.LogInformation($"Finished GetAllRegions request with data: {JsonSerializer.Serialize(regionsDomain)}");
+                // return DTOs to the client 
+                // exposing dto instead of domain model i.e. regionsDomain
+                return Ok(regionsDto);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
 
         // GET ALL REGIONS By ID

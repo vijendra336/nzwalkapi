@@ -8,8 +8,22 @@ using NZWalk.API.Repositories;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.FileProviders;
+using Serilog;
+using System.Diagnostics.Metrics;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//Inject logging package serilog
+var logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    //.MinimumLevel.Information()
+    .MinimumLevel.Warning()
+.CreateLogger();
+
+//Clear out any providers that we have injected till now.
+builder.Logging.ClearProviders(); 
+//We have to supply this logger to the builder object over here.
+builder.Logging.AddSerilog(logger);  
 
 // Add services to the container.
 
