@@ -5,6 +5,7 @@ using NZWalk.API.CustomActionFilter;
 using NZWalk.API.Models.Domain;
 using NZWalk.API.Models.DTO;
 using NZWalk.API.Repositories;
+using System.Net;
 
 namespace NZWalk.API.Controllers
 {
@@ -65,14 +66,25 @@ namespace NZWalk.API.Controllers
             [FromQuery] string? sortBy, [FromQuery] bool? isAscending,
             [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000)
         {
-            var walksDomainModel = await walkRepository.GetAllFilterAsync(filterOn, filterQuery, sortBy, isAscending ?? true, pageNumber, pageSize);
+            //try
+            //{
+                throw new Exception("This is new exception in Work manually global exception handler handle this");
+                var walksDomainModel = await walkRepository.GetAllFilterAsync(filterOn, filterQuery, sortBy, isAscending ?? true, pageNumber, pageSize);
 
-            if (walksDomainModel == null)
-            {
-                return NotFound();
-            }
+                if (walksDomainModel == null)
+                {
+                    return NotFound();
+                }
 
-            return Ok(mapper.Map<List<WalkDto>>(walksDomainModel));
+                return Ok(mapper.Map<List<WalkDto>>(walksDomainModel));
+            //}
+            //catch (Exception ex)
+            //{
+            //    // Log this exception 
+
+            //    return Problem("Something went worng", null, (int)HttpStatusCode.InternalServerError);
+            //    //throw;
+            //}
         }
 
         [HttpGet]

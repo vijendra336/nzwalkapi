@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.FileProviders;
 using Serilog;
 using System.Diagnostics.Metrics;
+using NZWalk.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -117,11 +118,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
- if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Inject GlobalExceptionHandler middleware 
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 
