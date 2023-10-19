@@ -68,7 +68,7 @@ namespace NZWalk.API.Controllers
         {
             //try
             //{
-                throw new Exception("This is new exception in Work manually global exception handler handle this");
+                //throw new Exception("This is new exception in Work manually global exception handler handle this");
                 var walksDomainModel = await walkRepository.GetAllFilterAsync(filterOn, filterQuery, sortBy, isAscending ?? true, pageNumber, pageSize);
 
                 if (walksDomainModel == null)

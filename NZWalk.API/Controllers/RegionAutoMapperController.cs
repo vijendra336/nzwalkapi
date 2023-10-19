@@ -41,7 +41,7 @@ namespace NZWalk.API.Controllers
             try
             {
                 // Log Exception using LogError method in  catch block 
-                throw new Exception("This is custom exception to check exception log ");
+                //throw new Exception("This is custom exception to check exception log ");
 
                 //Program.cs -> MinimumLevel.Information()  ( LogInformation and LogDebug work )
                 logger.LogInformation("GetAllRegions action method Invoked");
