@@ -32,7 +32,7 @@ namespace NZWalks.UI.Controllers
                 //ViewBag.Response = stringResponseBody;
 
                 // get data in json and map to model type RegionDto
-                response.AddRange( await httpResponseMessage.Content.ReadFromJsonAsync<IEnumerable<RegionDto>>() );
+                response.AddRange(await httpResponseMessage.Content.ReadFromJsonAsync<IEnumerable<RegionDto>>());
 
             }
             catch (Exception ex)
@@ -40,7 +40,7 @@ namespace NZWalks.UI.Controllers
                 // Log the exception 
                 throw;
             }
-           
+
 
             return View(response);
         }
@@ -55,7 +55,7 @@ namespace NZWalks.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddRegionViewModel model)
         {
-            var client= httpClientFactory.CreateClient();
+            var client = httpClientFactory.CreateClient();
 
             var httpRequestMessage = new HttpRequestMessage()
             {
@@ -64,13 +64,13 @@ namespace NZWalks.UI.Controllers
                 Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json")
             };
 
-            var httpResponseMessage= await client.SendAsync(httpRequestMessage);
+            var httpResponseMessage = await client.SendAsync(httpRequestMessage);
 
             httpResponseMessage.EnsureSuccessStatusCode();
 
             var response = await httpResponseMessage.Content.ReadFromJsonAsync<RegionDto>();
 
-            if(response is not null)
+            if (response is not null)
             {
                 return RedirectToAction("Index", "Regions");
             }
@@ -86,12 +86,36 @@ namespace NZWalks.UI.Controllers
             var client = httpClientFactory.CreateClient();
             var response = await client.GetFromJsonAsync<RegionDto>($"https://localhost:7218/api/regionautomapper/{Id.ToString()}");
 
-            if(response is not null)
+            if (response is not null)
             {
                 return View(response);
             }
 
             return View(null);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(RegionDto request)
+        {
+            var client = httpClientFactory.CreateClient();
+
+            var httpRequestMessage = new HttpRequestMessage()
+            {
+                Method = HttpMethod.Put,
+                RequestUri = new Uri($"https://localhost:7218/api/regionautomapper/{request.Id}"),
+                Content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json")
+            };
+
+            var httpResponseMessage = await client.SendAsync(httpRequestMessage);
+            httpResponseMessage.EnsureSuccessStatusCode();
+
+            var response = httpResponseMessage.Content.ReadFromJsonAsync<RegionDto>();
+            if (response is not null)
+            {
+                RedirectToAction("Edit", "Regions"); 
+            }
+
+            return View();
         }
     }
 }
