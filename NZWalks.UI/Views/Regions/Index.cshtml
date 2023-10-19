@@ -1,6 +1,6 @@
-﻿@using NZWalks.UI.Models.DTO;
+﻿@* @using NZWalks.UI.Models.DTO; *@
 
-@model IEnumerable<RegionDto>
+@model IEnumerable<NZWalks.UI.Models.DTO.RegionDto>
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -13,7 +13,9 @@
 {
     <p> @ViewBag.Response </p>
 } *@
-
+<div class="d-flex justify-content-end">
+    <a class="btn btn-secondary" asp-controller="Regions" asp-action="Add">Add Region</a>
+</div>
 <table class="table table-bordered">
     <thead>
         <tr>
