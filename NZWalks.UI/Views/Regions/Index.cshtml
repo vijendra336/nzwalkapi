@@ -22,17 +22,20 @@
             <th>Id</th>
             <th>Code</th>
             <th>Name</th>
-            @* <th></th> *@
+            <th></th>
         </tr>
     </thead> 
     <tbody>
         @foreach (var region in Model)
         {
-            <tr>
-                <td>@region.Id</td>
-                <td>@region.Code</td>
-                <td>@region.Name</td>
-            </tr>
+        <tr>
+            <td>@region.Id</td>
+            <td>@region.Code</td>
+            <td>@region.Name</td>
+            <td>
+                <a asp-controller="Regions" asp-action="Edit" asp-route-id="@region.Id" class="btn btn-light">Edit</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
